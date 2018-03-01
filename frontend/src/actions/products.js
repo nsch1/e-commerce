@@ -23,3 +23,10 @@ export const fetchAllProducts = () => (dispatch) => {
       payload: res.body
     }))
 }
+
+export const createProduct = (product) => (dispatch) => {
+  request
+    .post(`${baseUrl}/products`)
+    .send(product)
+    .then(response => alert(JSON.stringify(response.body)))
+}

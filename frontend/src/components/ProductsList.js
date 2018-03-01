@@ -1,8 +1,9 @@
 import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllProducts} from '../actions/products'
+import {fetchAllProducts, createProduct} from '../actions/products'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
+import ProductForm from './ProductForm'
 
 class ProductsList extends PureComponent {
   static propTypes = {
@@ -15,6 +16,10 @@ class ProductsList extends PureComponent {
 
   componentWillMount() {
     this.props.fetchAllProducts()
+  }
+
+  createProduct = (product) => {
+    this.props.createProduct(product)
   }
 
   render() {
@@ -41,6 +46,9 @@ class ProductsList extends PureComponent {
             </tr>)) }
           </tbody>
         </table>
+
+        <h1>Create a new product</h1>
+        <ProductForm onSubmit={this.createProduct} />
       </div>
     )
   }
@@ -48,4 +56,4 @@ class ProductsList extends PureComponent {
 
 const mapStateToProps = ({ products }) => ({ products })
 
-export default connect(mapStateToProps, { fetchAllProducts })(ProductsList)
+export default connect(mapStateToProps, { fetchAllProducts, createProduct })(ProductsList)
