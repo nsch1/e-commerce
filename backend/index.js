@@ -20,3 +20,14 @@ app.get('/products', (req, res) => {
       res.status(500).json({ message: "Oops something went wrong! Try again!"})
     })
 })
+
+app.get('/products/:id', (req, res) => {
+  Product.findById(req.params.id)
+    .then(result => {
+      if (!result) return res.status(404).json({ message: "No product found.." })
+      res.json(result)
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Oops something went wrong! Try again!" })
+    })
+})
