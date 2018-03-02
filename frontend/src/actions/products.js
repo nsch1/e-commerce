@@ -27,9 +27,12 @@ export const fetchAllProducts = () => (dispatch) => {
     }))
 }
 
-export const createProduct = (product) => (dispatch) => {
+export const createProduct = (product) => (dispatch, getState) => {
+  const jwt = getState().currentUser.jwt
+
   request
     .post(`${baseUrl}/products`)
+    .set('Authorization', `Bearer ${jwt}`)
     .send(product)
     .then(response => dispatch({
       type: ADD_PRODUCT,
@@ -37,18 +40,24 @@ export const createProduct = (product) => (dispatch) => {
     }))
 }
 
-export const deleteProduct = (productId) => (dispatch) => {
+export const deleteProduct = (productId) => (dispatch, getState) => {
+  const jwt = getState().currentUser.jwt
+
   request
     .delete(`${baseUrl}/products/${productId}`)
+    .set('Authorization', `Bearer ${jwt}`)
     .then(response => dispatch({
       type: REMOVE_PRODUCT,
       payload: productId
     }))
 }
 
-export const updateProduct = (productId, updates) => (dispatch) => {
+export const updateProduct = (productId, updates) => (dispatch, getState) => {
+  const jwt = getState().currentUser.jwt
+
   request
     .put(`${baseUrl}/products/${productId}`)
+    .set('Authorization', `Bearer ${jwt}`)
     .send(updates)
     .then(response => dispatch({
       type: UPDATE_PRODUCT,

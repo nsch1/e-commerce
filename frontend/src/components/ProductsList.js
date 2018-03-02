@@ -27,7 +27,8 @@ class ProductsList extends PureComponent {
   }
 
   render() {
-    const {products} = this.props
+    const {products, currentUser} = this.props
+
     return (
       <div>
         <h1>All products</h1>
@@ -52,14 +53,24 @@ class ProductsList extends PureComponent {
           </tbody>
         </table>
 
-        <h1>Create a new product</h1>
-        <ProductForm onSubmit={this.createProduct} />
+        {
+          currentUser &&
+          <div>
+            <h1>Create a new product</h1>
+            <ProductForm onSubmit={this.createProduct} />
+          </div>
+        }
+
+        {
+          !currentUser &&
+          <p>Please <Link to="/login">login</Link> or <Link to="/signup">signup</Link></p>
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ products }) => ({ products })
+const mapStateToProps = ({ products, currentUser }) => ({ products, currentUser })
 
 export default connect(mapStateToProps, {
   fetchAllProducts,
