@@ -8,7 +8,7 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 
-app.listen(4001, () => console.log('Express API listening on port 4001'))
+app.listen(process.env.PORT || 4001, () => console.log('Express API listening on port 4001'))
 
 app.get('/products', (req, res) => {
   Product.findAll({
@@ -29,7 +29,10 @@ app.post('/products', (req, res) => {
 
   Product.create(product)
     .then(entity => {
-      res.status(201).send(entity)
+      res.status(201).json(entity)
+    })
+    .catch(err => {
+      res.status(422).json({ message: err.message })
     })
 })
 

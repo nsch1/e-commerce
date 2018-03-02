@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllProducts, createProduct} from '../actions/products'
+import {fetchAllProducts, createProduct, deleteProduct} from '../actions/products'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ProductForm from './ProductForm'
@@ -20,6 +20,10 @@ class ProductsList extends PureComponent {
 
   createProduct = (product) => {
     this.props.createProduct(product)
+  }
+
+  deleteProduct = (productId) => {
+    this.props.deleteProduct(productId)
   }
 
   render() {
@@ -43,6 +47,7 @@ class ProductsList extends PureComponent {
                 <Link to={ `/products/${product.id}` }>{product.name}</Link>
               </td>
               <td>&euro; {product.price}.00</td>
+              <td><button onClick={ () => this.deleteProduct(product.id) } >Delete Product</button></td>
             </tr>)) }
           </tbody>
         </table>
@@ -56,4 +61,8 @@ class ProductsList extends PureComponent {
 
 const mapStateToProps = ({ products }) => ({ products })
 
-export default connect(mapStateToProps, { fetchAllProducts, createProduct })(ProductsList)
+export default connect(mapStateToProps, {
+  fetchAllProducts,
+  createProduct,
+  deleteProduct
+})(ProductsList)
