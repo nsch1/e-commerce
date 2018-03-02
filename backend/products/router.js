@@ -3,6 +3,13 @@ const {Product} = require('../models')
 
 const router = new Router()
 
+const requireUser = (req, res, next) => {
+  if (req.user) next()
+  else res.status(401).send({
+    message: 'Please login'
+  })
+}
+
 router.get('/products', (req, res) => {
   Product.findAll({
     attributes: ['id', 'name', 'price']
@@ -16,7 +23,7 @@ router.get('/products', (req, res) => {
     })
 })
 
-router.post('/products', (req, res) => {
+router.post('/products', requireUser, (req, res) => {
   const product = req.body
   console.log(product)
 
@@ -40,7 +47,7 @@ router.get('/products/:id', (req, res) => {
     })
 })
 
-router.put('/products/:id', (req, res) => {
+router.put('/products/:id', requireUser, (req, res) => {
   const productId = Number(req.params.id)
   const updates = req.body
 
@@ -60,7 +67,7 @@ router.put('/products/:id', (req, res) => {
 
 })
 
-router.delete('/products/:id', (req, res) => {
+router.delete('/products/:id', requireUser, (req, res) => {
   Product.findById(req.params.id)
   .then(entity => {
     return entity.destroy()

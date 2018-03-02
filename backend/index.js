@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 const db = require('./models')
 const { User } = db
 const verify = require('./jwt').verify
-const jwt = require('jsonwebtoken')
 const app = express()
 const productsRouter = require('./products/router')
 const usersRouter = require('./users/router')
